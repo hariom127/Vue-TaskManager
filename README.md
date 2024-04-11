@@ -1,4 +1,4 @@
-# blog
+# Vue.js TaskManager
 
 ## Project setup
 ```
