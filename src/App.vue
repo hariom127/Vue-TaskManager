@@ -1,20 +1,23 @@
 <template>
 <div class="container">
     <HeaderComponent title="Web Go" />
-    <TasksComponentVue @delete-task="deleteTask" @toggle-reminder="toggleReminder" :tasks="tasks" />
+    <TasksComponent @delete-task="deleteTask" @toggle-reminder="toggleReminder" :tasks="tasks" />
+    <AddTaskComponent @add-task="addTask" />
 </div>
 </template>
 
 <script>
 import HeaderComponent from './components/HeaderComponent.vue'
-import TasksComponentVue from './components/TasksComponent.vue'
+import TasksComponent from './components/TasksComponent.vue'
+import AddTaskComponent from './components/AddTaskComponent.vue'
 
 export default {
     name: 'App',
     components: {
 
         HeaderComponent,
-        TasksComponentVue
+        TasksComponent,
+        AddTaskComponent
     },
     data() {
         return {
@@ -23,6 +26,12 @@ export default {
     },
 
     methods: {
+        addTask(task) {
+            console.log("ffff", task);
+            this.tasks = [...this.tasks, task] 
+        },
+
+
         deleteTask(id) {
             if (confirm('Are you sure ?')) {
                 this.tasks = this.tasks.filter((task) => task.id !== id);
@@ -45,62 +54,21 @@ export default {
                 "id": 1,
                 "todo": "Do something nice for someone I care about",
                 "reminder": true,
-                "userId": 26
+                "day": 26
             },
             {
                 "id": 2,
                 "todo": "Memorize the fifty states and their capitals",
                 "reminder": false,
-                "userId": 48
+                "day": 48
             },
             {
                 "id": 3,
                 "todo": "Watch a classic movie",
                 "reminder": false,
-                "userId": 4
+                "day": 4
             },
-            {
-                "id": 4,
-                "todo": "Contribute code or a monetary donation to an open-source software project",
-                "reminder": false,
-                "userId": 48
-            },
-            {
-                "id": 5,
-                "todo": "Solve a Rubik's cube",
-                "reminder": false,
-                "userId": 31
-            },
-            {
-                "id": 6,
-                "todo": "Bake pastries for me and neighbor",
-                "reminder": false,
-                "userId": 39
-            },
-            {
-                "id": 7,
-                "todo": "Go see a Broadway production",
-                "reminder": false,
-                "userId": 32
-            },
-            {
-                "id": 8,
-                "todo": "Write a thank you letter to an influential person in my life",
-                "reminder": true,
-                "userId": 13
-            },
-            {
-                "id": 9,
-                "todo": "Invite some friends over for a game night",
-                "reminder": false,
-                "userId": 47
-            },
-            {
-                "id": 10,
-                "todo": "Have a football scrimmage with some friends",
-                "reminder": false,
-                "userId": 19
-            }
+            
         ]
     }
 }

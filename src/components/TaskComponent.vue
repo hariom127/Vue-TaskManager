@@ -4,7 +4,7 @@
         {{ task.todo }}
         <i  @click="onDelete(task.id)" class="fas fa-times"></i>
     </h3>
-    <p>{{ task.userId }}</p>
+    <p>{{ task.day }}</p>
 </div>
 </template>
 
