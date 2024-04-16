@@ -40,25 +40,46 @@ export default {
                 body: JSON.stringify(task)
             });
             const data = await res.json();
-            console.log("data====", data);
             this.tasks = [...this.tasks, data];
         },
 
-
-        deleteTask(id) {
+        async deleteTask(id) {
             if (confirm('Are you sure ?')) {
-                this.tasks = this.tasks.filter((task) => task.id !== id);
+                const res = await fetch(`api/tasks/${id}`, {
+                    method: 'DELETE'
+                });
+
+                res.status === 200 ? (this.tasks = this.tasks.filter((task) => task.id !== id)) : alert('Error in deleting task');
             }
         },
 
-        toggleReminder(id) {
-            console.log(id);
-            this.tasks = this.tasks.map((task) => {
-                if (task.id === id) {
-                    task.reminder = !task.reminder;
-                }
-                return task;
+        
+        async toggleReminder(id) {
+            const taskData = await this.fetchTask(id);
+
+            const updatedTask = {
+                ...taskData,
+                reminder: !taskData.reminder
+            };
+
+            const res = await fetch(`api/tasks/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedTask)
             })
+            if (res.status === 200) {
+                this.tasks = this.tasks.map((task) => {
+                    if (task.id === id) {
+                        task.reminder = !task.reminder;
+                    }
+                    return task;
+                })
+            } else {
+                alert('Error in update')
+            }
+
         },
         toggleAddTask() {
             this.showAddTask = !this.showAddTask
@@ -66,9 +87,13 @@ export default {
 
         async fetchTasks() {
             const res = await fetch('api/tasks');
-            console.log("res===========", res);
             const data = await res.json();
             return data;
+        },
+
+        async fetchTask(id) {
+            const task = await fetch(`api/tasks/${id}`);
+            return task.status === 200 ? await task.json() : {};
         }
     },
 
