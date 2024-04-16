@@ -1,7 +1,7 @@
 <template>
 <header>
     <h1>{{title}}</h1>
-    <ButtonComponent title="Login" color="green" />
+    <ButtonComponent @btnClick="$emit('toggle-add-task')" :title="showAddTask ? 'Close' : 'Add Task'" :color="showAddTask ? 'red' : 'green'" />
 </header>
 </template>
 
@@ -14,7 +14,8 @@ export default {
         title: {
             type: String,
             default: "Go with Vue"
-        }
+        },
+        showAddTask: Boolean
         // props: ['title']
         // props: {
         //  title: string
@@ -28,9 +29,9 @@ export default {
 
 <style scoped>
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
 </style>

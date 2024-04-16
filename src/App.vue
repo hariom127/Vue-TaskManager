@@ -1,8 +1,11 @@
 <template>
 <div class="container">
-    <HeaderComponent title="Web Go" />
+    <HeaderComponent @toggle-add-task="toggleAddTask" title="Web Go" :showAddTask="showAddTask" />
     <TasksComponent @delete-task="deleteTask" @toggle-reminder="toggleReminder" :tasks="tasks" />
-    <AddTaskComponent @add-task="addTask" />
+    <div v-show="showAddTask">
+        <AddTaskComponent @add-task="addTask" />
+
+    </div>
 </div>
 </template>
 
@@ -21,14 +24,24 @@ export default {
     },
     data() {
         return {
-            tasks: []
+            tasks: [],
+            showAddTask: false
         }
     },
 
     methods: {
-        addTask(task) {
+        async addTask(task) {
             console.log("ffff", task);
-            this.tasks = [...this.tasks, task] 
+            const res = await fetch('api/tasks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(task)
+            });
+            const data = await res.json();
+            console.log("data====", data);
+            this.tasks = [...this.tasks, data];
         },
 
 
@@ -46,30 +59,21 @@ export default {
                 }
                 return task;
             })
+        },
+        toggleAddTask() {
+            this.showAddTask = !this.showAddTask
+        },
+
+        async fetchTasks() {
+            const res = await fetch('api/tasks');
+            console.log("res===========", res);
+            const data = await res.json();
+            return data;
         }
     },
 
-    created() {
-        this.tasks = [{
-                "id": 1,
-                "todo": "Do something nice for someone I care about",
-                "reminder": true,
-                "day": 26
-            },
-            {
-                "id": 2,
-                "todo": "Memorize the fifty states and their capitals",
-                "reminder": false,
-                "day": 48
-            },
-            {
-                "id": 3,
-                "todo": "Watch a classic movie",
-                "reminder": false,
-                "day": 4
-            },
-            
-        ]
+    async created() {
+        this.tasks = await this.fetchTasks();
     }
 }
 </script>
