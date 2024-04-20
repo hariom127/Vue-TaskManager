@@ -6,11 +6,13 @@
         <AddTaskComponent @add-task="addTask" />
 
     </div>
+    <FooterComponent/>
 </div>
 </template>
 
 <script>
 import HeaderComponent from './components/HeaderComponent.vue'
+import FooterComponent from './components/FooterComponent.vue'
 import TasksComponent from './components/TasksComponent.vue'
 import AddTaskComponent from './components/AddTaskComponent.vue'
 
@@ -20,7 +22,8 @@ export default {
 
         HeaderComponent,
         TasksComponent,
-        AddTaskComponent
+        AddTaskComponent,
+        FooterComponent
     },
     data() {
         return {

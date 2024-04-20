@@ -10,7 +10,7 @@
       "id": "5dbe",
       "todo": "new task 123",
       "day": 44,
-      "reminder": false
+      "reminder": true
     }
   ]
 }
